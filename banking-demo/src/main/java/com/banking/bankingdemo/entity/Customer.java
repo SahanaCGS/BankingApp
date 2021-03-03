@@ -1,5 +1,6 @@
 package com.banking.bankingdemo.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,18 +14,28 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-public class Customer {
+public class Customer implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	
+	private int custId;
+
 	private String firstName;
-	
+
 	private String lastName;
 	
-	private String emailId;
 
+	@OneToMany(targetEntity = Account.class , cascade = CascadeType.ALL)
+	@JoinColumn
+	private List<Account> account;
+
+	
+	public List<Account> getAccount() {
+		return account;
+	}
+	public void setAccount(List<Account> account) {
+		this.account = account;
+	}
 	public String getFirstName() {
 		return firstName;
 	}
@@ -37,40 +48,21 @@ public class Customer {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-		public Customer(String firstName, String lastName, String emailId) {
+	public Customer() {
+
+	}	
+	public long getCustId() {
+		return custId;
+	}
+	public void setCustId(int custId) {
+		this.custId = custId;
+	}
+
+	public Customer(String firstName, String lastName) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.emailId = emailId;
 	}
-	public Customer() {
-
-	}
-
-	@OneToMany(targetEntity = Account.class , cascade = CascadeType.ALL)
-	@JoinColumn
-	private List<Account> account;
-
-	
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public List<Account> getAccount() {
-		return account;
-	}
-	public void setAccount(List<Account> account) {
-		this.account = account;
-	}
-	public String getEmailId() {
-		return emailId;
-	}
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
-	}
-	
 
 
 }
