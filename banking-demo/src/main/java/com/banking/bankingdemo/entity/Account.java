@@ -1,6 +1,8 @@
 package com.banking.bankingdemo.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -48,11 +50,11 @@ public class Account implements Serializable {
 	public void setBalance(long balance) {
 		this.balance = balance;
 	}
-	@OneToMany(targetEntity = DT_Transaction.class , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn
-	private List<DT_Transaction> transaction;
+	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+	private List<DT_Transaction> transaction = new ArrayList<>();
 	
 	
+
 	public List<DT_Transaction> getTransaction() {
 		return transaction;
 	}

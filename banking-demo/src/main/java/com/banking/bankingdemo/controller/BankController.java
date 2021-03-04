@@ -72,11 +72,13 @@ public class BankController {
 		return transactionRepository.findById(id);
 	}
 	@RequestMapping(value = "/transaction/deposit", method = RequestMethod.POST)
-	public void makeDeposit(@RequestBody TransactionRequest transact ) {
-		DT_Transaction transobject=transact.getAccountrequested().getTransaction().get(0);
-		int requesteddepo=transact.getAccountrequested().getTransaction().get(0).getDeposit();
-		System.out.println(transobject);
-		System.out.println(requesteddepo);
+	public void makeDeposit(@RequestBody TransactionRequest transact) {
+		//int transobject=transact.getAccount_accId();
+		Account requesteddeposit=transact.getAccountrequested();
+		//int requestedwithdraw=transact.getWithdraw();
+		//System.out.println(transobject);
+		//System.out.println(requestedwithdraw);
+		System.out.println(requesteddeposit);
 		return;		
 	}
 }

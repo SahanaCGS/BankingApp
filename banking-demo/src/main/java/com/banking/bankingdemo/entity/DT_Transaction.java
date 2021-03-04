@@ -1,11 +1,13 @@
 package com.banking.bankingdemo.entity;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,9 +16,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="transaction")
-public class DT_Transaction {
+public class DT_Transaction implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +45,10 @@ public class DT_Transaction {
 	@Column(name="deposit")
 	private int deposit;
 
-
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "transactionAccId", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private Account account;
 
 	public String getDescription() {
 		return description;
@@ -88,10 +98,21 @@ public class DT_Transaction {
 		this.deposit = deposit;
 	}
 
+	@JsonIgnore
+	public Account getAccount() {
+		return account;
+	}
 
+	public void setAccount(Account account) {
+		this.account = account;
+	}
 
 	public DT_Transaction() {
 		super();
+	}
+
+	public int getAccount_accId(){
+	    return account.getAccId();
 	}
 
 	public DT_Transaction(Date date, String description, String reference, int withdraw, int deposit
