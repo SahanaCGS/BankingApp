@@ -1,9 +1,10 @@
 package com.banking.bankingdemo.entity;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,35 +12,33 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
-public class Transaction {
+@Table(name="transaction")
+public class DT_Transaction {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="trans_id")
 	private int transId;
 		
+	@Column(name="date")
 	private Date date;
 	
+	@Column(name="description")
 	private String description;
 	
+	@Column(name="reference")
 	private String reference;
 	
+	@Column(name="withdraw")
 	private int withdraw;
 	
+	@Column(name="deposit")
 	private int deposit;
 
-	@ManyToOne
-    @JoinColumn(name = "account_acc_id")
-	private Account account;
-	
-	public Account getAccount() {
-		return account;
-	}
 
-	public void setAccount(Account account) {
-		this.account = account;
-	}
 
 	public String getDescription() {
 		return description;
@@ -91,19 +90,18 @@ public class Transaction {
 
 
 
-	public Transaction() {
+	public DT_Transaction() {
 		super();
 	}
 
-	public Transaction(Date date, String description, String reference, int withdraw, int deposit,
-			Account account) {
+	public DT_Transaction(Date date, String description, String reference, int withdraw, int deposit
+			) {
 		super();
 		this.date = date;
 		this.description = description;
 		this.reference = reference;
 		this.withdraw = withdraw;
 		this.deposit = deposit;
-		this.account = account;
 	}
 	
 }

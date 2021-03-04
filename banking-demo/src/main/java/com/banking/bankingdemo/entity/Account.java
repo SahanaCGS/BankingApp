@@ -17,25 +17,30 @@ import javax.persistence.Table;
 import com.banking.bankingdemo.enums.AccountType;
 
 @Entity
+@Table(name="account")
 public class Account implements Serializable {
 
 	@Id
+	@Column(name="acc_id")
 	private int accId;
 	
+	@Column(name="bank_name")
 	private String bankName;
 	
+	@Column(name="branch")
 	private String branch;
 	
+	@Column(name="account_type")
 	private AccountType accountType;
 	
+	@Column(name="bank_code")
 	private String bankCode;
 	
-	@Column(unique=true)
+	@Column(name="account_number",unique=true)
 	private int accountNumber;
 	
+	@Column(name="balance")
 	private long balance;
-
-	
 
 	public long getBalance() {
 		return balance;
@@ -43,14 +48,15 @@ public class Account implements Serializable {
 	public void setBalance(long balance) {
 		this.balance = balance;
 	}
-	@OneToMany(targetEntity = Transaction.class , cascade = CascadeType.ALL)
-	private List<Transaction> transaction;
+	@OneToMany(targetEntity = DT_Transaction.class , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn
+	private List<DT_Transaction> transaction;
 	
 	
-	public List<Transaction> getTransaction() {
+	public List<DT_Transaction> getTransaction() {
 		return transaction;
 	}
-	public void setTransaction(List<Transaction> transaction) {
+	public void setTransaction(List<DT_Transaction> transaction) {
 		this.transaction = transaction;
 	}
 	public int getAccId() {
@@ -95,21 +101,18 @@ public class Account implements Serializable {
 	}
 	
 	
-
 	public Account() {
 
 	}
-	public Account(int accId, String bankName, String branch, AccountType accountType, String bankCode,
-			int accountNumber, long balance, List<Transaction> transaction) {
+	public Account( String bankName, String branch, AccountType accountType, String bankCode,
+			int accountNumber, long balance) {
 		super();
-		this.accId = accId;
 		this.bankName = bankName;
 		this.branch = branch;
 		this.accountType = accountType;
 		this.bankCode = bankCode;
 		this.accountNumber = accountNumber;
 		this.balance = balance;
-		this.transaction = transaction;
 	}
 	
     

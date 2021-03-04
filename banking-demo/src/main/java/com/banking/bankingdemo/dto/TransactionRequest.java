@@ -1,20 +1,22 @@
 package com.banking.bankingdemo.dto;
 
-import com.banking.bankingdemo.entity.Transaction;
+import com.banking.bankingdemo.entity.Account;
+import com.banking.bankingdemo.entity.DT_Transaction;
 
 public class TransactionRequest {
-	private Transaction transaction;
+	private Account accountrequested;
 
-	public Transaction getTransaction() {
-		return transaction;
+	public Account getAccountrequested() {
+		return accountrequested;
 	}
 
-	public void setTransaction(Transaction transaction) {
-		this.transaction = transaction;
+	public void setAccountrequested(Account accountrequested) {
+		this.accountrequested = accountrequested;
 	}
 
 	public TransactionRequest() {
-		
+		super();
 	}
 
+	
 }
