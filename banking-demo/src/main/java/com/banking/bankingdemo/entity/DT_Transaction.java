@@ -19,6 +19,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.banking.bankingdemo.enums.AccountType;
+import com.banking.bankingdemo.enums.TransactionType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -36,19 +38,26 @@ public class DT_Transaction implements Serializable {
 	@Column(name="description")
 	private String description;
 	
-	@Column(name="reference")
-	private String reference;
+	@Column(name="amount")
+	private int amount;
+
+	@Column(name="transaction_type")
+	private TransactionType transactionType;
 	
-	@Column(name="withdraw")
-	private int withdraw;
-	
-	@Column(name="deposit")
-	private int deposit;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "transactionAccId", nullable = false)
+	@JoinColumn(name = "transactionmapped", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Account account;
+
+	
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
 
 	public String getDescription() {
 		return description;
@@ -74,31 +83,14 @@ public class DT_Transaction implements Serializable {
 		this.date = date;
 	}
 
-	public String getReference() {
-		return reference;
+	public TransactionType getTransactionType() {
+		return transactionType;
 	}
 
-	public void setReference(String reference) {
-		this.reference = reference;
+	public void setTransactionType(TransactionType transactionType) {
+		this.transactionType = transactionType;
 	}
 
-	public int getWithdraw() {
-		return withdraw;
-	}
-
-	public void setWithdraw(int withdraw) {
-		this.withdraw = withdraw;
-	}
-
-	public int getDeposit() {
-		return deposit;
-	}
-
-	public void setDeposit(int deposit) {
-		this.deposit = deposit;
-	}
-
-	@JsonIgnore
 	public Account getAccount() {
 		return account;
 	}
@@ -111,18 +103,19 @@ public class DT_Transaction implements Serializable {
 		super();
 	}
 
-	public int getAccount_accId(){
+	public int getTransactionconId(){
 	    return account.getAccId();
 	}
 
-	public DT_Transaction(Date date, String description, String reference, int withdraw, int deposit
-			) {
+	public DT_Transaction(Date date, String description, TransactionType transactionType,int amount) {
 		super();
 		this.date = date;
 		this.description = description;
-		this.reference = reference;
-		this.withdraw = withdraw;
-		this.deposit = deposit;
+		this.transactionType = transactionType;
+		this.amount = amount;
+
 	}
+
+
 	
 }

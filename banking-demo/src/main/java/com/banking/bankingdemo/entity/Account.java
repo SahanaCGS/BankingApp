@@ -16,6 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.banking.bankingdemo.enums.AccountType;
 
 @Entity
@@ -42,24 +45,33 @@ public class Account implements Serializable {
 	private int accountNumber;
 	
 	@Column(name="balance")
-	private long balance;
+	private int balance;
 
-	public long getBalance() {
+	public int getBalance() {
 		return balance;
 	}
-	public void setBalance(long balance) {
+	public void setBalance(int balance) {
 		this.balance = balance;
 	}
-	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
-	private List<DT_Transaction> transaction = new ArrayList<>();
-	
-	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "accountmapped", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private Customer customer;
+
+	@OneToMany(targetEntity = DT_Transaction.class , cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "account")
+	private List<DT_Transaction> transaction;
 
 	public List<DT_Transaction> getTransaction() {
 		return transaction;
 	}
 	public void setTransaction(List<DT_Transaction> transaction) {
 		this.transaction = transaction;
+	}
+	public Customer getCustomer() {
+		return customer;
+	}
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 	public int getAccId() {
 		return accId;
@@ -107,7 +119,7 @@ public class Account implements Serializable {
 
 	}
 	public Account( String bankName, String branch, AccountType accountType, String bankCode,
-			int accountNumber, long balance) {
+			int accountNumber, int balance) {
 		super();
 		this.bankName = bankName;
 		this.branch = branch;

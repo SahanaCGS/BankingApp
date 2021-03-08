@@ -4,15 +4,21 @@ import com.banking.bankingdemo.entity.Account;
 import com.banking.bankingdemo.entity.DT_Transaction;
 
 public class TransactionRequest {
-	private Account accountrequested;
+	private DT_Transaction transactionRequested;
 
-	public Account getAccountrequested() {
-		return accountrequested;
+
+
+	public DT_Transaction getTransactionRequested() {
+		return transactionRequested;
 	}
 
-	public void setAccountrequested(Account accountrequested) {
-		this.accountrequested = accountrequested;
+
+
+	public void setTransactionRequested(DT_Transaction transactionRequested) {
+		this.transactionRequested = transactionRequested;
 	}
+
+
 
 	public TransactionRequest() {
 		super();

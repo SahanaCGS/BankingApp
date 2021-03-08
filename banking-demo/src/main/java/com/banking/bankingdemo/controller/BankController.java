@@ -38,14 +38,13 @@ public class BankController {
 	
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public Customer addAccount(@RequestBody AddRequest request) {
-		return customerRepository.save(request.getCustomer());
+	public Account addAccount(@RequestBody Account account) {
+		System.out.println(account.getCustomer());
+		return accountRepository.save(account);
 	}
 			
 	@RequestMapping(value = "/getAccount", method = RequestMethod.GET)
 	public @ResponseBody List<Account> findAccounts(){
-		List<Account> account=accountRepository.findAll();
-		System.out.println(account.get(0).getAccId());
 		return accountRepository.findAll();
 	}
 
@@ -71,14 +70,38 @@ public class BankController {
 	public Optional<DT_Transaction> findTransactions(@PathVariable(value = "id") int id) {
 		return transactionRepository.findById(id);
 	}
+	
+	
+	
 	@RequestMapping(value = "/transaction/deposit", method = RequestMethod.POST)
-	public void makeDeposit(@RequestBody TransactionRequest transact) {
-		//int transobject=transact.getAccount_accId();
-		Account requesteddeposit=transact.getAccountrequested();
-		//int requestedwithdraw=transact.getWithdraw();
-		//System.out.println(transobject);
-		//System.out.println(requestedwithdraw);
-		System.out.println(requesteddeposit);
-		return;		
+	public DT_Transaction makeDeposit(@RequestBody DT_Transaction transact) {
+		 int amount = transactionRepository.save(transact).getAmount();
+         Optional<Account> account = accountRepository.findById(transact.getAccount().getAccId());
+         if(account.isPresent()) {
+             Account account1=account.get();
+        	 int newbalance = account1.getBalance() + amount;
+             account1.setBalance(newbalance);
+             accountRepository.save(account1);
+         }
+         else {
+        	 System.out.println(account);
+         }
+		 return transact;			
+	}
+	
+	@RequestMapping(value = "/transaction/withdraw", method = RequestMethod.POST)
+	public DT_Transaction makeWithdraw(@RequestBody DT_Transaction transact) {
+		 int amount = transactionRepository.save(transact).getAmount();
+         Optional<Account> account = accountRepository.findById(transact.getAccount().getAccId());
+         if(account.isPresent()) {
+             Account account1=account.get();
+        	 int newbalance = account1.getBalance() - amount;
+             account1.setBalance(newbalance);
+             accountRepository.save(account1);
+         }
+         else {
+        	 System.out.println(account);
+         }
+		 return transact;			
 	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,8 +30,7 @@ public class Customer implements Serializable{
 	private String lastName;
 	
 
-	@OneToMany(targetEntity = Account.class , cascade = CascadeType.ALL)
-	@JoinColumn
+	@OneToMany(targetEntity = Account.class , cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
 	private List<Account> account;
 
 	
